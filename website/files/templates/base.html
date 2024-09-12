@@ -1,0 +1,68 @@
+{% load static %} 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <title>{% block title %}Datathon{% endblock %}</title>
+
+    <style>
+        .toggle-item {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="bootstrap-navbar">
+        <!-- Bootstrap CSS is scoped within this div -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        {% include 'navbar.html' %}
+    </div>
+
+    <div style="text-align: center;">
+        {% if request.resolver_match.url_name == 'index' %}
+            <img src="{% static 'Datathon.png' %}" alt="Logo">
+        {% endif %}
+    </div>
+    
+    <header class="header">
+        <h1>{% block heading %}{% endblock %}</h1>
+    </header>
+
+    <div class="content">
+        {% block content %}
+        
+        {% endblock %}
+    </div>
+
+        <!-- JavaScript to toggle navbar items and store the state -->
+    <script>
+        function showNavbar() {
+            if (!sessionStorage.getItem('navbarToggled')) {
+                setTimeout(function() {
+                    var items = document.getElementsByClassName('toggle-item');
+                    for (var i = 0; i < items.length; i++) {
+                        items[i].style.display = 'block';
+                    }
+                    sessionStorage.setItem('navbarToggled', 'true');
+
+                    setTimeout(function() {
+                        window.location.href = "{% url 'SG' %}";  
+                    }, 2000); 
+
+                }, 2000);
+            } else {
+                var items = document.getElementsByClassName('toggle-item');
+                for (var i = 0; i < items.length; i++) {
+                    items[i].style.display = 'block';
+                }
+            }
+        }
+        window.onload = function() {
+            if (sessionStorage.getItem('navbarToggled') === 'true') {
+                showNavbar();
+            }
+        };
+    </script>
+
+</body>
+</html>

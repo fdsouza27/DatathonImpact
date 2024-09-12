@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+
+<div class="hero">
+        <h2 class="hero-title">Collaborative Network</h2>
+        <p class="hero-subtitle">Depiction of an increased collaborative network resulting from datathon</p>
+</div>
+
+<!-- Embed Mapbox map using iframe -->
+<iframe class="fullscreen" style="width:100%; height:100vh; border:none;" src="https://api.mapbox.com/styles/v1/mansi2599/cln3ac8k506j901madkq80hmu.html?title=false&access_token=pk.eyJ1IjoibWFuc2kyNTk5IiwiYSI6ImNsbTZweWUweDQ0anYza2xpYTl1YWl1eW0ifQ.QRorUEi9SM2AGeIEnBhjTw&zoomwheel=false#2.54/22.83/-51.92" title="St same size dot" ></iframe>
+{% endblock %}

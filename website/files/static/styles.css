@@ -1,0 +1,61 @@
+.hero {
+    background-color: #f8f9fa;
+    text-align: center;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.hero-title {
+    font-size: 30px;
+    margin-bottom: 5px;
+}
+
+.hero-subtitle {
+    font-size: 18px;
+    margin: 0px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Times New Roman', Times, serif;
+}
+
+#wordcloud-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0px;
+}
+
+.wordcloud-section {
+    width: 48%;
+    margin: 30px;
+    text-align: center;
+}
+
+.wordcloud-title {
+    font-size: 23px;
+    margin-bottom: 10px;
+}
+
+.wordcloud img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* New styles for the form and dropdowns */
+.dashboard-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dropdown-container {
+    flex-grow: 1;
+    margin: 18px;
+}
+
+.dropdown-label {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
+}
+

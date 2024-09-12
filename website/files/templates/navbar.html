@@ -1,0 +1,29 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#"></a>
+
+  <nav class="navbar bg-body-tertiary">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'SG' %}">
+      <img src="{% static 'logo.png' %}" alt="Datathon Impact" width="25" height="25" href="{% url 'SG' %}"> Datathon Impact </a>
+  </div>
+</nav>
+  
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      
+      <!-- Make sure these items have the class "toggle-item" to be controlled by the JavaScript -->
+      <li class="nav-item toggle-item">
+        <a class="nav-link" href="{% url 'SG' %}">Scholarly Growth</a>
+      </li>
+      <li class="nav-item toggle-item">
+        <a class="nav-link" href="{% url 'TE' %}">Thematic Evolution</a>
+      </li>
+      <li class="nav-item toggle-item">
+        <a class="nav-link" href="{% url 'CN' %}">Collaborative Network</a>
+      </li>
+      
+    </ul>
+  </div>
+</nav>

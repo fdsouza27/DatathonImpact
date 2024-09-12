@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+
+<div class="hero">
+    <p class="hero-title">Scholarly Growth: Datathon Attendees Dashboard</p>
+    <p class="hero-subtitle">A comparative view of the publication productivity of the participants pre-datathon vs. post-datathon</p>
+</div>
+
+<form id="dashboard-form" class="dashboard-form">
+    <div class="dropdown-container">
+        <label for="main_dropdown" class="dropdown-label">Author Name:</label>
+        <select id="main_dropdown" class="dropdown-select">
+            {% for option in main_dropdown_options %}
+            <option value="{{ option }}" {% if option == main_dropdown %}selected{% endif %}>{{ option }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="dropdown-container">
+        <label for="third_dropdown" class="dropdown-label">Select Author Position:</label>
+        <select id="third_dropdown" class="dropdown-select">
+            {% for option in third_dropdown_options %}
+            <option value="{{ option }}" {% if option == third_dropdown %}selected{% endif %}>{{ option }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</form>
+
+
+<div id="plotly_chart_before" style="width: 47.5%; display: inline-block;">
+    <!-- Plotly chart for Before Datathon will be rendered here -->
+</div>
+
+<div id="plotly_chart_after" style="width: 47.5%; display: inline-block;">
+    <!-- Plotly chart for After Datathon will be rendered here -->
+</div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+    function updatePlot() {
+        var authorSelection = document.getElementById("main_dropdown").value;
+        var positionSelection = document.getElementById("third_dropdown").value;
+
+        fetch("{% url 'SG' %}?author=" + authorSelection + "&position=" + positionSelection, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest' 
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+
+
+        .then(data => {
+            console.log("Received data from server:", data);
+            Plotly.react('plotly_chart_before', data.before, {});
+            Plotly.react('plotly_chart_after', data.after, {});
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    document.getElementById("main_dropdown").addEventListener("change", updatePlot);
+    document.getElementById("third_dropdown").addEventListener("change", updatePlot);
+
+    // Load initial plot
+    updatePlot(); // This will be called on initial load
+</script>
+
+{% endblock %}

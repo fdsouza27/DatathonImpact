@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<head>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+
+<div class="hero">
+        <h2 class="hero-title">Thematic Evolution</h2>
+        <p class="hero-subtitle">Abstract-driven word clouds, examining the participant's shift towards incorporating data science into their domains</p>
+</div>
+
+    
+<h1 style="font-size: 25px; margin: 30px; margin-top: 15px;">Author Word Clouds</h1>
+
+<form method="post">
+    {% csrf_token %}
+    <label for="author-dropdown" style="margin: 30px; margin-top:-5px;">Select an author:</label>
+    <select id="author-dropdown" class="wordcloud-dropdown">
+        <option value="">Select an author</option>
+        {% for author in author_list %}
+        <option value="{{ author }}">{{ author }}</option>
+        {% endfor %}
+    </select>
+
+     
+    <div id="wordcloud-container">
+        <div class="wordcloud-section">
+            <h2 class="wordcloud-title">Word Cloud before attending Datathon:</h2>
+            <div id="wordcloud-before" class="wordcloud"></div>
+        </div>
+        <div class="wordcloud-section">
+            <h2 class="wordcloud-title">Word Cloud after attending Datathon:</h2>
+            <div id="wordcloud-after" class="wordcloud"></div>
+        </div>
+    </div>
+</form>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#author-dropdown').on('change', function() {
+                var authorName = $(this).val();
+                var csrfToken = $('[name=csrfmiddlewaretoken]').val();
+
+                $.ajax({
+                    url: '/TE/',
+                    method: 'POST',
+                    data: {
+                        'selected_author': authorName,
+                        'csrfmiddlewaretoken': csrfToken,
+                    },
+                    dataType: 'json',
+                 success: function(data) {
+                    
+                    $('#wordcloud-before').empty();
+                    $('#wordcloud-after').empty();
+
+                    // Now handle the responses
+                    if (typeof data.wordcloud_before === 'string') {
+                        $('#wordcloud-before').html('<img src="data:image/png;base64,' + data.wordcloud_before + '" alt="Word Cloud Before" class="wordcloud-image">');
+                    } else {
+                        Plotly.newPlot('wordcloud-before', data.wordcloud_before.data, data.wordcloud_before.layout);
+                    }
+
+                    if (typeof data.wordcloud_after === 'string') {
+                        $('#wordcloud-after').html('<img src="data:image/png;base64,' + data.wordcloud_after + '" alt="Word Cloud After" class="wordcloud-image">');
+                    } else {
+                        Plotly.newPlot('wordcloud-after', data.wordcloud_after.data, data.wordcloud_after.layout);
+                    }
+                },
+
+
+                    error: function(error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
+
+{% endblock %}
